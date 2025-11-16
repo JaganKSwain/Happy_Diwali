@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Diwali</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cinzel', 'Georgia', serif;
+            background: #000000;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .diya-icon {
+            font-size: 3em;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            color: #d4af37;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+            animation-delay: 0.3s;
+        }
+
+        .message {
+            font-size: 1.1em;
+            color: #c0c0c0;
+            font-weight: 300;
+            letter-spacing: 2px;
+            line-height: 2;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+            animation-delay: 0.6s;
+        }
+
+        .wishes {
+            font-size: 0.95em;
+            color: #808080;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 1.5s ease-in forwards;
+            animation-delay: 0.9s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        /* Fireworks */
+        .firework {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: firework 1.8s ease-out forwards;
+        }
+
+        @keyframes firework {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty));
+                opacity: 0;
+            }
+        }
+
+        /* Sky shots */
+        .skyshot {
+            position: absolute;
+            width: 2px;
+            height: 50px;
+            background: linear-gradient(to top, transparent, rgba(212, 175, 55, 0.8), rgba(212, 175, 55, 1));
+            animation: skyshot 2.5s ease-out forwards;
+            bottom: 0;
+        }
+
+        @keyframes skyshot {
+            0% {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-90vh);
+                opacity: 0;
+            }
+        }
+
+        /* Subtle particles */
+        .particle {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            background: #d4af37;
+            border-radius: 50%;
+            animation: float-particle 4s ease-in-out infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes float-particle {
+            0%, 100% { 
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            50% { 
+                opacity: 0.6;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="diya-icon">🪔</div>
+        <h1>HAPPY DIWALI</h1>
+        <p class="message">
+            May the divine light illuminate your path<br>
+            and bring peace, prosperity, and joy
+        </p>
+        <p class="wishes">Wishing you a luminous celebration</p>
+    </div>
+
+    <script>
+        // Create elegant fireworks
+        function createFirework(x, y) {
+            const colors = ['#d4af37', '#f0e68c', '#ffd700', '#daa520'];
+            const particles = 16;
+            
+            for (let i = 0; i < particles; i++) {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = x + 'px';
+                firework.style.top = y + 'px';
+                firework.style.background = colors[Math.floor(Math.random() * colors.length)];
+                
+                const angle = (Math.PI * 2 * i) / particles;
+                const velocity = 40 + Math.random() * 40;
+                
+                firework.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                firework.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+                
+                document.body.appendChild(firework);
+                
+                setTimeout(() => firework.remove(), 1800);
+            }
+        }
+
+        // Elegant periodic fireworks
+        setInterval(() => {
+            const x = window.innerWidth * (0.2 + Math.random() * 0.6);
+            const y = window.innerHeight * (0.15 + Math.random() * 0.4);
+            createFirework(x, y);
+        }, 2000);
+
+        // Sky shots
+        setInterval(() => {
+            const skyshot = document.createElement('div');
+            skyshot.className = 'skyshot';
+            skyshot.style.left = (window.innerWidth * (0.1 + Math.random() * 0.8)) + 'px';
+            document.body.appendChild(skyshot);
+            
+            setTimeout(() => {
+                const rect = skyshot.getBoundingClientRect();
+                skyshot.remove();
+                createFirework(rect.left, rect.top);
+            }, 2000);
+        }, 3000);
+
+        // Subtle floating particles
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 4 + 's';
+            particle.style.setProperty('--tx', (Math.random() - 0.5) * 100 + 'px');
+            particle.style.setProperty('--ty', (Math.random() - 0.5) * 100 + 'px');
+            document.body.appendChild(particle);
+        }
+
+        // Initial fireworks
+        setTimeout(() => {
+            createFirework(window.innerWidth * 0.3, window.innerHeight * 0.3);
+        }, 1500);
+        
+        setTimeout(() => {
+            createFirework(window.innerWidth * 0.7, window.innerHeight * 0.25);
+        }, 2000);
+    </script>
+</body>
+</html>
